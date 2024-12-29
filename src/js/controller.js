@@ -12,10 +12,8 @@ const timeout = function (s) {
   });
 };
 
-// https://forkify-api.herokuapp.com/v2
-
-///////////////////////////////////////
-// Rendering Loader
+/////////////////////////////////////////////////////
+// Rendering Loader-------------------------------------------
 const renderSpinner = function (parentEl) {
   const markup = `
         <div class="spinner">
@@ -29,12 +27,12 @@ const renderSpinner = function (parentEl) {
 };
 
 const showRecipe = async function () {
-  // Recipe ID
+  // Recipe ID-----------------------------------------------------------
   const id = window.location.hash.slice(1);
   console.log(id);
 
   if (!id) return;
-  //Loading Recipe----------------------------
+  //Loading Recipe---------------------------------------------------------
   try {
     renderSpinner(recipeContainer);
 
@@ -59,7 +57,7 @@ const showRecipe = async function () {
     console.log(response);
     console.log(recipe.ingredients);
 
-    //Rendering Recipe----------------------------
+    //Rendering Recipe----------------------------------------------------
     const markup = `
         <figure class="recipe__fig">
           <img src=${recipe.image} alt=${recipe.title} class="recipe__img" />
