@@ -4,19 +4,9 @@ import recipeView from './views/recipeView';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-const recipeContainer = document.querySelector('.recipe');
-
-const timeout = function (s) {
-  return new Promise(function (_, reject) {
-    setTimeout(function () {
-      reject(new Error(`Request took too long! Timeout after ${s} second`));
-    }, s * 1000);
-  });
-};
-
+// const recipeContainer = document.querySelector('.recipe');
 /////////////////////////////////////////////////////
 // Rendering Loader-------------------------------------------
-recipeView.renderSpinner();
 
 const controlRecipes = async function () {
   try {
@@ -25,7 +15,7 @@ const controlRecipes = async function () {
 
     if (!id) return;
 
-    recipeView.renderSpinner(recipeContainer);
+    recipeView.renderSpinner();
 
     // LOAD RECIPE
     await model.loadRecipe(id);
