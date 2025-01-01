@@ -1,8 +1,15 @@
 import * as model from './model';
 import recipeView from './views/recipeView';
+import searchView from './views/searchView';
+import resultsView from './views/resultsView';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+
+// HOT MODULE RUN --> PARCEL
+if (module.hot) {
+  module.hot.accept();
+}
 
 // Rendering Loader-------------------------------------------
 
@@ -25,8 +32,26 @@ const controlRecipes = async function () {
   }
 };
 
+const controlSearchRecipes = async function () {
+  try {
+    resultsView.renderSpinner();
+    // GET QUERY
+    const query = searchView.getQuery();
+    if (!query) return;
+
+    // LOAD QUERY
+    await model.loadSearch(query);
+
+    // RENDER RESULTS
+    resultsView.render(model.state.search.results);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
+  searchView.addHandlerSearch(controlSearchRecipes);
 };
 
 init();
