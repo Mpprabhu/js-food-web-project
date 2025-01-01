@@ -4,8 +4,6 @@ import recipeView from './views/recipeView';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-// const recipeContainer = document.querySelector('.recipe');
-/////////////////////////////////////////////////////
 // Rendering Loader-------------------------------------------
 
 const controlRecipes = async function () {
@@ -24,8 +22,12 @@ const controlRecipes = async function () {
     recipeView.render(model.state.recipe);
   } catch (err) {
     // alert(err);
+    console.error(err);
   }
 };
 
-const events = ['hashchange', 'load'];
-events.forEach(eve => window.addEventListener(eve, controlRecipes));
+const init = function () {
+  recipeView.addHandlerRender(controlRecipes);
+};
+
+init();
