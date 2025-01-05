@@ -21,7 +21,6 @@ const controlRecipes = async function () {
     console.log(id);
 
     if (!id) return;
-
     recipeView.renderSpinner();
 
     // UPDATION FOR SELECTED RESULT
@@ -86,7 +85,12 @@ const controlAddBookmark = function () {
   bookmarksView.render(model.state.bookmarks);
 };
 
+const controlBookmarks = function () {
+  bookmarksView.render(model.state.bookmarks);
+};
+
 const init = function () {
+  bookmarksView.addHandlerBookmarks(controlBookmarks);
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
   recipeView.addHandlerAddBookmark(controlAddBookmark);
