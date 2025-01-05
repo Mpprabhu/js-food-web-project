@@ -7,6 +7,9 @@ class ResultsView extends View {
   _errorMessage = `No Recipes found!! Please search with other recipes :)`;
   _message = '';
 
+  addHandlerDefaultResults(handler) {
+    handler();
+  }
   _generateMarkup() {
     return this._data.map(result => previewView.render(result, false)).join('');
   }

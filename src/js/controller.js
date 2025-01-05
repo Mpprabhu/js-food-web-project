@@ -89,8 +89,20 @@ const controlBookmarks = function () {
   bookmarksView.render(model.state.bookmarks);
 };
 
+const controlDefaultContent = async function () {
+  await model.loadDefaultContent([
+    'chicken',
+    'pizza',
+    'burger',
+    'popcorn',
+    'soup',
+  ]);
+  resultsView.render(model.getSearchResultsPage());
+};
+
 const init = function () {
   bookmarksView.addHandlerBookmarks(controlBookmarks);
+  resultsView.addHandlerDefaultResults(controlDefaultContent);
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
   recipeView.addHandlerAddBookmark(controlAddBookmark);

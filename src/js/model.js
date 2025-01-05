@@ -42,7 +42,6 @@ export const loadSearch = async function (query) {
   try {
     state.search.query = query;
     const data = await getJSON(`${API_URL}?search=${query}`);
-    console.log(data);
 
     state.search.results = data.data.recipes.map(recipe => {
       return {
@@ -53,6 +52,31 @@ export const loadSearch = async function (query) {
       };
     });
     state.search.page = 1;
+  } catch (err) {
+    console.error(`${err} 💣💣💣`);
+    throw err;
+  }
+};
+
+export const loadDefaultContent = async function (defaultOptions) {
+  try {
+    const min = 0;
+    const max = defaultOptions.length;
+
+    const data = await getJSON(
+      `${API_URL}?search=${
+        defaultOptions[Math.floor(Math.random() * (max - min)) + min]
+      }`
+    );
+
+    state.search.results = data.data.recipes.map(recipe => {
+      return {
+        id: recipe.id,
+        title: recipe.title,
+        publisher: recipe.publisher,
+        image: recipe.image_url,
+      };
+    });
   } catch (err) {
     console.error(`${err} 💣💣💣`);
     throw err;
