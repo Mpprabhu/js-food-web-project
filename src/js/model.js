@@ -1,5 +1,5 @@
 import { API_URL, RESULTS_PER_PAGE, KEY } from './config';
-import { getJSON, sendJSON } from './helper';
+import { AJAX } from './helper';
 
 export const state = {
   recipe: {},
@@ -28,7 +28,8 @@ const createRecipeObject = function (data) {
 };
 export const loadRecipe = async function (id) {
   try {
-    const data = await getJSON(`${API_URL}${id}`);
+    const data = await AJAX(`${API_URL}${id}`);
+    // const data = await AJAX(`${API_URL}${id}?key=${KEY}`);
     state.recipe = createRecipeObject(data);
 
     // console.log(state.recipe);
@@ -44,7 +45,8 @@ export const loadRecipe = async function (id) {
 export const loadSearch = async function (query) {
   try {
     state.search.query = query;
-    const data = await getJSON(`${API_URL}?search=${query}`);
+    const data = await AJAX(`${API_URL}?search=${query}`);
+    // const data = await AJAX(`${API_URL}?search=${query}&key=${KEY}`);
 
     state.search.results = data.data.recipes.map(recipe => {
       return {
@@ -52,6 +54,7 @@ export const loadSearch = async function (query) {
         title: recipe.title,
         publisher: recipe.publisher,
         image: recipe.image_url,
+        ...(recipe.key && { key: recipe.key }),
       };
     });
     state.search.page = 1;
@@ -66,7 +69,7 @@ export const loadDefaultContent = async function (defaultOptions) {
     const min = 0;
     const max = defaultOptions.length;
 
-    const data = await getJSON(
+    const data = await AJAX(
       `${API_URL}?search=${
         defaultOptions[Math.floor(Math.random() * (max - min)) + min]
       }`
@@ -137,7 +140,7 @@ export const uploadRecipe = async function (newRecipes) {
     const ingredients = Object.entries(newRecipes)
       .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
       .map(ing => {
-        const ingArr = ing[1].replaceAll(' ', '').split(',');
+        const ingArr = ing[1].split(',').map(el => el.trim());
         if (ingArr.length !== 3) {
           throw new Error(
             'Wrong Ingredient Format given, Please use proper format :)'
@@ -155,7 +158,7 @@ export const uploadRecipe = async function (newRecipes) {
       cooking_time: +newRecipes.cookingTime,
       ingredients,
     };
-    const data = await sendJSON(`${API_URL}?key=${KEY}`, recipe);
+    const data = await AJAX(`${API_URL}?key=${KEY}`, recipe);
     state.recipe = createRecipeObject(data);
     addBookmark(state.recipe);
     console.log(state.recipe);
