@@ -5,7 +5,6 @@ import View from './View';
 class RecipeView extends View {
   _parentElement = document.querySelector('.recipe');
   _errorMessage = `Oops! We couldn't find that recipe, Please try another one!`;
-  _message = '';
 
   addHandlerRender(handler) {
     const events = ['hashchange', 'load'];
