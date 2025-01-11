@@ -39,6 +39,13 @@
         <nav class="nav">
           <ul class="nav__list">
             <li class="nav__item">
+              <button class="nav__btn nav__btn--shopping-recipe">
+                <svg class="nav__icon">
+                  <use href="src/img/icons.svg#icon-smile"></use>
+                </svg>
+              </button>
+            </li>
+            <li class="nav__item">
               <button class="nav__btn nav__btn--add-recipe">
                 <svg class="nav__icon">
                   <use href="src/img/icons.svg#icon-edit"></use>
@@ -170,6 +177,18 @@
           <span>Upload</span>
         </button>
       </form>
+    </div>
+
+    <!-- Checking section -->
+    <div class="shopping-overlay hidden"></div>
+    <div class="shopping-window hidden">
+      <button class="btn--close-shopping">&times;</button>
+      <div class="shop">
+        <!-- <h2>Shopping List</h2> -->
+        <!-- <ul class="shopping-lists">
+          <li class="shop-list">peanut butter</li>
+        </ul> -->
+      </div>
     </div>
   </body>
 </html>

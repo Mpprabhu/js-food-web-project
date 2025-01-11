@@ -5,6 +5,7 @@ import resultsView from './views/resultsView';
 import paginationView from './views/paginationView';
 import bookmarksView from './views/bookmarksView';
 import addRecipeView from './views/addRecipeView';
+import shoppingView from './views/shoppingView';
 import { MODAL_CLOSE_SEC } from './config';
 
 import 'core-js/stable';
@@ -119,6 +120,10 @@ const controlRecipeUpload = async function (newRecipe) {
   }
 };
 
+const controlShopping = function () {
+  shoppingView.render('peanut');
+};
+
 const init = function () {
   bookmarksView.addHandlerBookmarks(controlBookmarks);
   resultsView.addHandlerDefaultResults(controlDefaultContent);
@@ -128,6 +133,7 @@ const init = function () {
   searchView.addHandlerSearch(controlSearchRecipes);
   paginationView.addHandlerClick(controlPagination);
   addRecipeView.addHandlerUpload(controlRecipeUpload);
+  shoppingView.addHandlerShoppingList(controlShopping);
 };
 
 init();
