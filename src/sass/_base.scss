@@ -1,7 +1,7 @@
 // $color-primary: #f59a83;
-$color-primary: #f38e82;
-$color-grad-1: #fbdb89;
-$color-grad-2: #f48982;
+$color-primary: #fa5252;
+$color-grad-1: #ff6b6b;
+$color-grad-2: #fa5252;
 
 $color-grey-light-1: #f9f5f3; // Light background
 $color-grey-light-2: #f2efee; // Light lines
@@ -37,7 +37,7 @@ html {
 }
 
 body {
-  font-family: 'Nunito Sans', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 400;
   line-height: 1.6;
   color: $color-grey-dark-1;
@@ -48,11 +48,11 @@ body {
 }
 
 .container {
-  max-width: 120rem;
-  min-height: 117rem;
-  margin: 4vw auto;
+  // max-width: 120rem;
+  // min-height: 117rem;
+  // margin: 4vw auto;
   background-color: #fff;
-  border-radius: 9px;
+  // border-radius: 9px;
   overflow: hidden;
   box-shadow: 0 2rem 6rem 0.5rem rgba($color-grey-dark-1, 0.2);
 
