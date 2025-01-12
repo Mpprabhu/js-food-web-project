@@ -120,6 +120,7 @@ const controlRecipeUpload = async function (newRecipe) {
   }
 };
 
+// checking Shopping list
 const controlShopping = function () {
   shoppingView.render('peanut');
 };
