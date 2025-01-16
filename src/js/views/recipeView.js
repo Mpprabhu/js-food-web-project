@@ -81,6 +81,14 @@ class RecipeView extends View {
             <use href="${icons}#icon-user"></use>
           </svg>
         </div>
+        <!--  cart check -->
+          <button class="btn--round btn--cart">
+            <svg class="">
+              <use href="${icons}.svg#icon-cart${
+      this._data.bookmarked ? '-fill' : ''
+    }"></use>
+            </svg>
+          </button>
           <button class="btn--round btn--bookmark">
             <svg class="">
               <use href="${icons}.svg#icon-bookmark${
