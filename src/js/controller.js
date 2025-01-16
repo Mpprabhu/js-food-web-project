@@ -122,19 +122,28 @@ const controlRecipeUpload = async function (newRecipe) {
 
 // checking Shopping list
 const controlShopping = function () {
-  shoppingView.render('peanut');
+  shoppingView.render(model.state.shopping);
+};
+
+const controlAddShopping = function () {
+  if (!model.state.recipe.shopped) model.addShopping(model.state.recipe);
+  else model.deleteShopping(model.state.recipe.id);
+  recipeView.update(model.state.recipe);
+  console.log(model.state.shopping);
+  shoppingView.render(model.state.shopping);
 };
 
 const init = function () {
   bookmarksView.addHandlerBookmarks(controlBookmarks);
+  shoppingView.addHandlerShopping(controlShopping);
   resultsView.addHandlerDefaultResults(controlDefaultContent);
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
   recipeView.addHandlerAddBookmark(controlAddBookmark);
+  recipeView.addHandlerAddShoppingList(controlAddShopping);
   searchView.addHandlerSearch(controlSearchRecipes);
   paginationView.addHandlerClick(controlPagination);
   addRecipeView.addHandlerUpload(controlRecipeUpload);
-  shoppingView.addHandlerShoppingList(controlShopping);
 };
 
 init();

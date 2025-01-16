@@ -1,8 +1,11 @@
+import previewView from './previewView';
 import View from './View';
+import icons from 'url:../../img/icons.svg';
 
 class ShoppingView extends View {
   _parentElement = document.querySelector('.shop');
-  _message = 'Search Recipes for Shopping List';
+  _errorMessage = `No Shopping! Find a recipe to shop the ingredients :)`;
+  _message = '';
 
   _overlay = document.querySelector('.shopping-overlay');
   _window = document.querySelector('.shopping-window');
@@ -13,10 +16,6 @@ class ShoppingView extends View {
     super();
     this._addHandlerShowWindow();
     this._addHandlerHideWindow();
-  }
-
-  addHandlerShoppingList(handler) {
-    handler();
   }
 
   _toggleWindow() {
@@ -33,16 +32,31 @@ class ShoppingView extends View {
     this._overlay.addEventListener('click', this._toggleWindow.bind(this));
   }
 
+  addHandlerShopping(handler) {
+    window.addEventListener('load', handler);
+  }
+
   _generateMarkup() {
     return `
-        <h2>Shopping List</h2>
-        <ul class="shopping-lists">
-          <li class="shop-list">${this._data}</li>
-          <li class="shop-list">${this._data}</li>
-          <li class="shop-list">${this._data}</li>
-          <li class="shop-list">${this._data}</li>
-          <li class="shop-list">${this._data}</li>
-        </ul>
+      <h2 class="shop-heading">Shopping List</h2>
+      <ul class="shopping-lists">
+        ${this._data
+          .map(shop =>
+            shop.ingredients
+              .map(ingredient => this._generateList(ingredient))
+              .join('')
+          )
+          .join('')}
+      </ul>
+    `;
+  }
+
+  _generateList(ingredient) {
+    if (!ingredient || !ingredient.description) return '';
+    return `
+      <li class="shop-list">
+        ${ingredient.description}
+      </li>
     `;
   }
 }

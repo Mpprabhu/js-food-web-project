@@ -37,6 +37,10 @@ export const loadRecipe = async function (id) {
     if (state.bookmarks.some(bookmark => bookmark.id === id))
       state.recipe.bookmarked = true;
     else state.recipe.bookmarked = false;
+    // checking shopping
+    if (state.shopping.some(shop => shop.id === id))
+      state.recipe.shopped = true;
+    else state.recipe.shopped = false;
   } catch (err) {
     console.error(`${err} 💣💣💣`);
     throw err;
@@ -170,6 +174,17 @@ export const uploadRecipe = async function (newRecipes) {
 
 // checking shopping list
 
+// export const addShopping = function (recipe) {
+//   state.shopping.push(recipe.ingredients);
+// };
+
 export const addShopping = function (recipe) {
-  state.shopping.push(recipe.ingredients);
+  state.shopping.push(recipe);
+  if (recipe.id === state.recipe.id) state.recipe.shopped = true;
+};
+
+export const deleteShopping = function (id) {
+  const index = state.shopping.findIndex(shop => shop.id === id);
+  state.shopping.splice(index, 1);
+  if (id === state.recipe.id) state.recipe.shopped = false;
 };

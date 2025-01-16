@@ -28,6 +28,14 @@ class RecipeView extends View {
     });
   }
 
+  addHandlerAddShoppingList(handler) {
+    this._parentElement.addEventListener('click', function (e) {
+      const btn = e.target.closest('.btn--cart');
+      if (!btn) return;
+      handler();
+    });
+  }
+
   _generateMarkup() {
     return `
         <figure class="recipe__fig">
@@ -85,7 +93,7 @@ class RecipeView extends View {
           <button class="btn--round btn--cart">
             <svg class="">
               <use href="${icons}.svg#icon-cart${
-      this._data.bookmarked ? '-fill' : ''
+      this._data.shopped ? '-fill' : ''
     }"></use>
             </svg>
           </button>
