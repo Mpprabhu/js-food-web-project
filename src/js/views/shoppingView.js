@@ -55,9 +55,25 @@ class ShoppingView extends View {
     if (!ingredient || !ingredient.description) return '';
     return `
       <li class="shop-list">
-        ${ingredient.description}
+        <span>${ingredient.description}</span>
+        <button class="btn--delete-shopping" data-id="${ingredient.description}">X
+        </button>
       </li>
     `;
+  }
+
+  addHandlerDeleteShopping(handler) {
+    this._parentElement.addEventListener('click', function (e) {
+      const btn = e.target.closest('.btn--delete-shopping');
+      if (!btn) return;
+      const ingredientDesc = btn.dataset.id;
+      handler(ingredientDesc);
+    });
+  }
+
+  updateShoppingState(id) {
+    const recipe = this._data.find(shop => shop.id === id);
+    if (recipe) recipe.shopped = false;
   }
 }
 

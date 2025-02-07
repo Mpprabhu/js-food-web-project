@@ -138,10 +138,38 @@ const controlAddShopping = function () {
   shoppingView.render(model.state.shopping);
 };
 
+const controlDeleteShopping = function (ingredientDesc) {
+  // Ensure we don't modify the recipe's actual ingredients
+  model.state.shopping = model.state.shopping.map(recipe => ({
+    ...recipe,
+    ingredients: recipe.ingredients.filter(
+      ing => ing.description !== ingredientDesc
+    ),
+  }));
+
+  // Remove empty recipes from the shopping list and update their shopped status
+  model.state.shopping = model.state.shopping.filter(recipe => {
+    if (recipe.ingredients.length === 0) {
+      // Ensure we update the correct recipe in `model.state.recipe`
+      if (model.state.recipe.id === recipe.id) {
+        model.state.recipe.shopped = false;
+      }
+      return false; // Remove from shopping list
+    }
+    return true;
+  });
+
+  // Update UI immediately
+  shoppingView.render(model.state.shopping);
+  recipeView.update(model.state.recipe); // Ensure the shopping cart icon updates instantly
+};
+
 const init = function () {
   resultsView.addHandlerDefaultResults(controlDefaultContent);
   bookmarksView.addHandlerBookmarks(controlBookmarks);
   shoppingView.addHandlerShopping(controlShopping);
+  shoppingView.addHandlerShopping(controlShopping);
+  shoppingView.addHandlerDeleteShopping(controlDeleteShopping);
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
   recipeView.addHandlerAddBookmark(controlAddBookmark);

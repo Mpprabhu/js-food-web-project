@@ -61,4 +61,17 @@
 
 .shop-list {
   font-size: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn--delete-shopping {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease-in-out;
 }
