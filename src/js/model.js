@@ -11,6 +11,7 @@ export const state = {
   },
   bookmarks: [],
   shopping: [],
+  recents: [],
 };
 
 const createRecipeObject = function (data) {
@@ -33,7 +34,6 @@ export const loadRecipe = async function (id) {
     // const data = await AJAX(`${API_URL}${id}?key=${KEY}`);
     state.recipe = createRecipeObject(data);
 
-    // console.log(state.recipe);
     if (state.bookmarks.some(bookmark => bookmark.id === id))
       state.recipe.bookmarked = true;
     else state.recipe.bookmarked = false;
@@ -69,27 +69,24 @@ export const loadSearch = async function (query) {
   }
 };
 
-export const loadDefaultContent = async function (defaultOptions) {
+export const loadDefaultContent = async function (recents) {
   try {
-    const min = 0;
-    const max = defaultOptions.length;
+    if (!recents || recents.length === 0) {
+      state.search.results = [];
+      return;
+    }
 
-    const data = await AJAX(
-      `${API_URL}?search=${
-        defaultOptions[Math.floor(Math.random() * (max - min)) + min]
-      }`
-    );
+    const randomIndex = Math.floor(Math.random() * recents.length);
+    const data = await AJAX(`${API_URL}?search=${recents[randomIndex]}`);
 
-    state.search.results = data.data.recipes.map(recipe => {
-      return {
-        id: recipe.id,
-        title: recipe.title,
-        publisher: recipe.publisher,
-        image: recipe.image_url,
-      };
-    });
+    state.search.results = data.data.recipes.map(recipe => ({
+      id: recipe.id,
+      title: recipe.title,
+      publisher: recipe.publisher,
+      image: recipe.image_url,
+    }));
   } catch (err) {
-    console.error(`${err} 💣💣💣`);
+    console.error('Error loading recent searches:', err);
     throw err;
   }
 };
@@ -114,11 +111,23 @@ const persistBookmarks = function () {
   localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
 };
 
+const persistRecents = function () {
+  localStorage.setItem('recents', JSON.stringify(state.recents));
+};
+
 export const addBookmark = function (recipe) {
   state.bookmarks.push(recipe);
   if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
 
   persistBookmarks();
+};
+
+// RECENTS
+export const addRecents = function (query) {
+  if (!state.recents.includes(query)) {
+    state.recents.push(query);
+    persistRecents();
+  }
 };
 
 export const deleteBookmark = function (id) {
@@ -130,8 +139,10 @@ export const deleteBookmark = function (id) {
 };
 
 const init = function () {
-  const storage = localStorage.getItem('bookmarks');
-  if (storage) state.bookmarks = JSON.parse(storage);
+  const storageBookmarks = localStorage.getItem('bookmarks');
+  if (storageBookmarks) state.bookmarks = JSON.parse(storageBookmarks);
+  const storageRecents = localStorage.getItem('recents');
+  if (storageRecents) state.recents = JSON.parse(storageRecents);
 };
 init();
 

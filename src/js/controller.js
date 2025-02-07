@@ -47,6 +47,8 @@ const controlSearchRecipes = async function () {
     const query = searchView.getQuery();
     if (!query) return;
 
+    model.addRecents(query);
+
     resultsView.renderSpinner();
 
     // LOAD QUERY
@@ -92,14 +94,17 @@ const controlBookmarks = function () {
 };
 
 const controlDefaultContent = async function () {
-  await model.loadDefaultContent([
-    'chicken',
-    'pizza',
-    'burger',
-    'popcorn',
-    'soup',
-  ]);
-  resultsView.render(model.getSearchResultsPage());
+  try {
+    if (!model.state.recents || model.state.recents.length === 0) {
+      resultsView.renderMessage('Search your meal by ingredients');
+      return;
+    }
+
+    await model.loadDefaultContent(model.state.recents);
+    resultsView.render(model.getSearchResultsPage());
+  } catch (err) {
+    resultsView.renderError('Failed to load recent searches.');
+  }
 };
 
 const controlRecipeUpload = async function (newRecipe) {
@@ -134,9 +139,9 @@ const controlAddShopping = function () {
 };
 
 const init = function () {
+  resultsView.addHandlerDefaultResults(controlDefaultContent);
   bookmarksView.addHandlerBookmarks(controlBookmarks);
   shoppingView.addHandlerShopping(controlShopping);
-  resultsView.addHandlerDefaultResults(controlDefaultContent);
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
   recipeView.addHandlerAddBookmark(controlAddBookmark);
