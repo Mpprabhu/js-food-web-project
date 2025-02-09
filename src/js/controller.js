@@ -10,17 +10,12 @@ import { MODAL_CLOSE_SEC } from './config';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-// HOT MODULE RUN --> PARCEL
-// if (module.hot) {
-//   module.hot.accept();
-// }
 
 // Rendering Loader-------------------------------------------
 
 const controlRecipes = async function () {
   try {
     const id = window.location.hash.slice(1);
-    console.log(id);
 
     if (!id) return;
     recipeView.renderSpinner();
@@ -78,7 +73,7 @@ const controlServings = function (newServings) {
   model.updateServings(newServings);
 
   // RENDERING WITH NEW SERVINGS
-  // recipeView.render(model.state.recipe);
+
   recipeView.update(model.state.recipe);
 };
 
@@ -108,7 +103,6 @@ const controlDefaultContent = async function () {
 };
 
 const controlRecipeUpload = async function (newRecipe) {
-  // console.log(newRecipe);
   try {
     await model.uploadRecipe(newRecipe);
     recipeView.render(model.state.recipe);
@@ -120,7 +114,7 @@ const controlRecipeUpload = async function (newRecipe) {
       addRecipeView._toggleWindow();
     }, MODAL_CLOSE_SEC);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     addRecipeView.renderError(err.message);
   }
 };
@@ -134,12 +128,10 @@ const controlAddShopping = function () {
   if (!model.state.recipe.shopped) model.addShopping(model.state.recipe);
   else model.deleteShopping(model.state.recipe.id);
   recipeView.update(model.state.recipe);
-  console.log(model.state.shopping);
   shoppingView.render(model.state.shopping);
 };
 
 const controlDeleteShopping = function (ingredientDesc) {
-  // Ensure we don't modify the recipe's actual ingredients
   model.state.shopping = model.state.shopping.map(recipe => ({
     ...recipe,
     ingredients: recipe.ingredients.filter(
@@ -147,19 +139,16 @@ const controlDeleteShopping = function (ingredientDesc) {
     ),
   }));
 
-  // Remove empty recipes from the shopping list and update their shopped status
   model.state.shopping = model.state.shopping.filter(recipe => {
     if (recipe.ingredients.length === 0) {
-      // Ensure we update the correct recipe in `model.state.recipe`
       if (model.state.recipe.id === recipe.id) {
         model.state.recipe.shopped = false;
       }
-      return false; // Remove from shopping list
+      return false;
     }
     return true;
   });
 
-  // Update UI immediately
   shoppingView.render(model.state.shopping);
   recipeView.update(model.state.recipe); // Ensure the shopping cart icon updates instantly
 };
