@@ -37,7 +37,7 @@ export const loadRecipe = async function (id) {
     if (state.bookmarks.some(bookmark => bookmark.id === id))
       state.recipe.bookmarked = true;
     else state.recipe.bookmarked = false;
-    // checking shopping
+
     if (state.shopping.some(shop => shop.id === id))
       state.recipe.shopped = true;
     else state.recipe.shopped = false;
