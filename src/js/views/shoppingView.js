@@ -1,6 +1,5 @@
 import previewView from './previewView';
 import View from './View';
-import icons from 'url:../../img/icons.svg';
 
 class ShoppingView extends View {
   _parentElement = document.querySelector('.shop');
