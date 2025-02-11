@@ -130,6 +130,10 @@ export const addRecents = function (query) {
   }
 };
 
+// export const clearRecents = function () {
+//   localStorage.clear('recents');
+// };
+
 export const deleteBookmark = function (id) {
   const index = state.bookmarks.findIndex(bookmark => bookmark.id === id);
   state.bookmarks.splice(index, 1);
@@ -146,10 +150,9 @@ const init = function () {
 };
 init();
 
-const clearBookmarks = function () {
-  localStorage.clear('bookmarks');
-};
-// clearBookmarks();
+// const clearBookmarks = function () {
+//   localStorage.clear('bookmarks');
+// };
 
 export const uploadRecipe = async function (newRecipes) {
   try {

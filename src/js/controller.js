@@ -42,12 +42,15 @@ const controlSearchRecipes = async function () {
     const query = searchView.getQuery();
     if (!query) return;
 
-    model.addRecents(query);
-
     resultsView.renderSpinner();
 
     // LOAD QUERY
     await model.loadSearch(query);
+
+    // ADD RECENTS
+    if (model.state.search.results.length > 0) {
+      model.addRecents(query);
+    }
 
     // RENDER RESULTS
 
